@@ -117,6 +117,15 @@ public class CensusAnalyser {
         censusDAOList = sort(stateCodeComparator, censusDAOList);
         return new Gson().toJson(censusDAOList);
     }
+    public String getUSCensusPopulationWiseSortedCensusData() throws CensusAnalyserException {
+        if (censusMap  == null || censusMap .size() == 0) {
+            throw new CensusAnalyserException("No Census Data", CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<IndiaCensusDAO> usCensusComparator = Comparator.comparing(census -> census.usPopulation);
+        List<IndiaCensusDAO> censusDAOList = censusMap.values().stream().collect(Collectors.toList());
+        censusDAOList = descendingSort(usCensusComparator, censusDAOList);
+        return new Gson().toJson(censusDAOList);
+    }
     private static <E> List<E> sort(Comparator<E> censusComparator, List<E> censusList) {
         for (int i = 0; i < censusList.size()-1; i++) {
             for (int j =0; j< censusList.size() -i -1; j++) {

@@ -193,4 +193,15 @@ public class CensusAnalyserTest {
             Assert.assertEquals(51,numOfRecords);
         } catch (CensusAnalyserException e) { }
     }
+    //This test case checks for Sorted USCensus Data in a Json Format according to most Populous state to least
+    @Test
+    public void givenUSCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getUSCensusPopulationWiseSortedCensusData();
+            USCensusCSV[] usCensusCSV =  new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals(37253956, usCensusCSV[0].usPopulation);
+        } catch (CensusAnalyserException e ) { }
+    }
 }

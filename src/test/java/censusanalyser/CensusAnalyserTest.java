@@ -12,6 +12,7 @@ public class CensusAnalyserTest {
     private static final String INDIA_STATE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_TYPE = "IndiaStateCode.txt";
+    private static final String WRONG_STATE_CSV_FILE_DELIMITER = "IndiaStateCode/csv";
     //This test case is used to ensure number of record matches from State Census CSV file
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -98,6 +99,18 @@ public class CensusAnalyserTest {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndiaCensusData(WRONG_STATE_CSV_FILE_TYPE);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
+        }
+    }
+    //This test case checks StateCodeCSV file path correct but delimiter incorrect throws Custom Exception
+    @Test
+    public void givenIndiaStateCodeData_WithWrongDelimiter_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            censusAnalyser.loadIndiaCensusData(WRONG_STATE_CSV_FILE_DELIMITER);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
         }

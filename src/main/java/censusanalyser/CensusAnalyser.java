@@ -27,8 +27,9 @@ public class CensusAnalyser {
             return numberOfEntries;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (IllegalStateException e) {
+            throw new CensusAnalyserException(e.getMessage(),
+                    CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER);
         }
-
-
     }
 }

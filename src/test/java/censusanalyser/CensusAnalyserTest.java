@@ -139,4 +139,15 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER,e.type);
         }
     }
+    // This test case checks for Sorted State Data in a Json format according to State Code alphabetical order
+    @Test
+    public void givenIndiaStateCodeData_WhenSortedOnStateCode_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaStateCodeData(INDIA_STATE_CSV_FILE_PATH);
+            String sortedStateData = censusAnalyser.getStateCodeWiseSortedData();
+            IndiaStateCodeCSV[] stateCSV =  new Gson().fromJson(sortedStateData, IndiaStateCodeCSV[].class);
+            Assert.assertEquals("AD", stateCSV[0].stateCode);
+        } catch (CensusAnalyserException e ) { }
+    }
 }

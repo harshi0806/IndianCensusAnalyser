@@ -104,6 +104,17 @@ public class CensusAnalyserTest {
             Assert.assertEquals(1102, censusCSV[0].densityPerSqKm);
         } catch (CensusAnalyserException e ) { }
     }
+    //This test case checks for Sorted Census Data in a Json Format according to most Populous state density to least
+    @Test
+    public void givenIndianCensusData_WhenSortedByStateArea_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getStateAreaWiseSortedCensusData();
+            IndiaCensusCSV[] censusCSV =  new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals(342239, censusCSV[0].areaInSqKm);
+        } catch (CensusAnalyserException e ) { }
+    }
     //This test case is used to ensure number of record matches from State Code CSV file
     @Test
     public void givenIndiaStateCodeCSVFileReturnsCorrectRecords() {

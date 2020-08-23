@@ -115,4 +115,16 @@ public class CensusAnalyserTest {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
         }
     }
+    //This test case checks for StateCodeCSV file Header
+    @Test
+    public void givenIndiaStateCodeData_WithIncorrectHeader_ShouldThrowException() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            censusAnalyser.loadIndiaStateCodeData(INDIA_STATE_CSV_FILE_PATH);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER,e.type);
+        }
+    }
 }

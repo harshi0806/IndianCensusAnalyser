@@ -14,6 +14,7 @@ public class CensusAnalyserTest {
     private static final String WRONG_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_TYPE = "IndiaStateCode.txt";
     private static final String WRONG_STATE_CSV_FILE_DELIMITER = "IndiaStateCode/csv";
+    private static final String US_CENSUS_CSV_FILE_PATH = "./src/test/resources/USCensusData.csv";
     //This test case is used to ensure number of record matches from State Census CSV file
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
@@ -182,5 +183,14 @@ public class CensusAnalyserTest {
             IndiaStateCodeCSV[] stateCSV =  new Gson().fromJson(sortedStateData, IndiaStateCodeCSV[].class);
             Assert.assertEquals("AD", stateCSV[0].stateCode);
         } catch (CensusAnalyserException e ) { }
+    }
+    //This test case is used to ensure number of record matches from US Census CSV file
+    @Test
+    public void givenUSCensusCSVFileReturnsCorrectRecords() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            int numOfRecords = censusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
+            Assert.assertEquals(51,numOfRecords);
+        } catch (CensusAnalyserException e) { }
     }
 }

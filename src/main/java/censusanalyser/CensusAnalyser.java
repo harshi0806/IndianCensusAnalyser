@@ -10,20 +10,21 @@ import java.util.stream.StreamSupport;
 public class CensusAnalyser {
     public static int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> censusCSVIterator = new OpenCSVBuilder()
                                                              .getCSVFileIterator(reader, IndiaCensusCSV.class);
             return getCount(censusCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        }catch (IllegalStateException e){
+        }catch (IllegalStateException e) {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER);
-        } catch (RuntimeException e){
-            throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CensusAnalyserException e) {
+                throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
-
     }
     public static int loadIndiaStateCodeData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
+            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaStateCodeCSV> stateCSVIterator = new OpenCSVBuilder()
                                                            .getCSVFileIterator(reader, IndiaStateCodeCSV.class);
             return getCount(stateCSVIterator);
@@ -31,8 +32,8 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (IllegalStateException e){
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER);
-        } catch (RuntimeException e){
-            throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        } catch (CensusAnalyserException e) {
+            throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }
     private static <E> int getCount(Iterator<E> iterator){

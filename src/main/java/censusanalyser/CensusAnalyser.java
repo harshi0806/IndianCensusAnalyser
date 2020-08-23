@@ -1,5 +1,10 @@
 package censusanalyser;
 
+import customcsv.util.CSVBuilderException;
+import customcsv.util.CSVBuilderFactory;
+import customcsv.util.ICSVBuilder;
+import customcsv.util.OpenCSVBuilder;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -18,7 +23,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (IllegalStateException e) {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER);
-        } catch (CensusAnalyserException e) {
+        } catch (CSVBuilderException e) {
                 throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }
@@ -32,7 +37,7 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (IllegalStateException e){
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_INCORRECT_HEADER);
-        } catch (CensusAnalyserException e) {
+        } catch (CSVBuilderException e) {
             throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }

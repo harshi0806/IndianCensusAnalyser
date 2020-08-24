@@ -201,7 +201,29 @@ public class CensusAnalyserTest {
             censusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.getUSCensusPopulationWiseSortedCensusData();
             USCensusCSV[] usCensusCSV =  new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
-            Assert.assertEquals(37253956, usCensusCSV[0].usPopulation);
+            Assert.assertEquals(37253956, usCensusCSV[0].population);
+        } catch (CensusAnalyserException e ) { }
+    }
+    //This test case checks for Sorted USCensus Data in a Json Format according to most Populous Density state to least
+    @Test
+    public void givenUSCensusData_WhenSortedOnPopulationDensity_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getUSCensusPopulationDensityWiseSortedCensusData();
+            USCensusCSV[] usCensusCSV =  new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals(3805.61, usCensusCSV[0].populationDensity, 0.01);
+        } catch (CensusAnalyserException e ) { }
+    }
+    //This test case checks for Sorted USCensus Data in a Json Format according to most Populous Area state to least
+    @Test
+    public void givenUSCensusData_WhenSortedOnArea_ShouldReturnSortedResult() {
+        try {
+            CensusAnalyser censusAnalyser = new CensusAnalyser();
+            censusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
+            String usCensusData = censusAnalyser.getUSCensusAreaWiseSortedCensusData();
+            USCensusCSV[] usCensusCSV =  new Gson().fromJson(usCensusData, USCensusCSV[].class);
+            Assert.assertEquals(1723338.01, usCensusCSV[0].totalArea, 0.01);
         } catch (CensusAnalyserException e ) { }
     }
 }

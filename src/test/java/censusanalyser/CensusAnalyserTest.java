@@ -226,17 +226,19 @@ public class CensusAnalyserTest {
             Assert.assertEquals("Alaska", usCensusCSV[0].state);
         } catch (CensusAnalyserException e ) { }
     }
+    //This test case checks for most Populous state in a Json Format for both US and India Census Data in terms of Population density
     @Test
     public void givenUSAndIndiaCensus_WhenSorted_ShouldReturnName() throws CensusAnalyserException {
-        CensusAnalyser censusAnalyser = new CensusAnalyser();
-        censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-        censusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
-        String populousIndianState = censusAnalyser.getStatePopulationDensityWiseSortedCensusData();
-        String populousUSState = censusAnalyser.getUSCensusPopulationDensityWiseSortedCensusData();
-        USCensusCSV[] CensusUsCSV = new Gson().fromJson(populousUSState, USCensusCSV[].class);
-        IndiaCensusCSV[] CensusIndiaCSV = new Gson().fromJson(populousIndianState, IndiaCensusCSV[].class);
-        Assert.assertEquals("District of Columbia", CensusUsCSV[0].state);
-        Assert.assertEquals("Bihar", CensusIndiaCSV[0].state);
+        CensusAnalyser indiaCensusAnalyser = new CensusAnalyser();
+        CensusAnalyser usCensusAnalyser = new CensusAnalyser();
+        indiaCensusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        usCensusAnalyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
+        String populousIndianState = indiaCensusAnalyser.getStatePopulationDensityWiseSortedCensusData();
+        String populousUSState = usCensusAnalyser.getUSCensusPopulationDensityWiseSortedCensusData();
+        IndiaCensusCSV[] censusCSV = new Gson().fromJson(populousIndianState, IndiaCensusCSV[].class);
+        USCensusCSV[] usCensusCSV = new Gson().fromJson(populousUSState, USCensusCSV[].class);
+        Assert.assertEquals("Bihar", censusCSV[0].state);
+        Assert.assertEquals("District of Columbia", usCensusCSV[0].state);
 
     }
 }
